@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <tchar.h>
+#include <iterator>
 
 
 
@@ -13,87 +14,184 @@ class words {
 
 public:
 
-	CString four[400];
-	CString five[400];
-	CString six[400];
-	CString seven[400];
-	CString eight[400];
-	CString nine[400];
-	CString ten[400];
+	CString four[200];
+	CString five[200];
+	CString six[200];
+	CString seven[200];
+	CString eight[200];
+	CString nine[200];
+	CString ten[200];
 
 	words() {
-		std::ifstream file_four("G://Rijeci//cetiri.txt");
-		std::ifstream file_five("G://Rijeci//pet.txt");
-		std::ifstream file_six("G://Rijeci//sest.txt");
-		std::ifstream file_seven("G://Rijeci//sedam.txt");
-		std::ifstream file_eight("G://Rijeci//osam.txt");
-		std::ifstream file_nine("G://Rijeci//devet.txt");
-		std::ifstream file_ten("G://Rijeci//deset.txt");
+		CString path;
 
-		std::string temp;
+		std::string *temp;
+		int max;
+		int i = 0;
+
+
+		path.LoadString(IDS_FOUR);
+		std::ifstream file_four(path);
+		std::istream_iterator<std::string> in4{ file_four }, end4;
+		max = std::distance(in4, end4);
+		temp = new std::string[max];
+
 		if (file_four.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_four >> temp;
-				four[i] = temp.c_str();
+			file_four.clear();
+			file_four.seekg(0, file_four.beg);
+			for (i = 0; i < max; ++i) {
+				file_four >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				four[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_four.close();
 		}
 
+		path.LoadString(IDS_FIVE);
+		std::ifstream file_five(path);
+		std::istream_iterator<std::string> in5{ file_five }, end5;
+		max = std::distance(in5, end5);
+		temp = new std::string[max];
+
 		if (file_five.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_five >> temp;
-				five[i] = temp.c_str();
+			file_five.clear();
+			file_five.seekg(0, file_five.beg);
+			for (i = 0; i < max; ++i) {
+				file_five >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				five[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_five.close();
 		}
 
+		path.LoadString(IDS_SIX);
+		std::ifstream file_six(path);
+		std::istream_iterator<std::string> in6{ file_six }, end6;
+		max = std::distance(in6, end6);
+		temp = new std::string[max];
+
 		if (file_six.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_six >> temp;
-				six[i] = temp.c_str();
+			file_six.clear();
+			file_six.seekg(0, file_six.beg);
+			for (i = 0; i < max; ++i) {
+				file_six >> temp[i];
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				six[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_six.close();
 		}
 
+		path.LoadString(IDS_SEVEN);
+		std::ifstream file_seven(path);
+		std::istream_iterator<std::string> in7{ file_seven }, end7;
+		max = std::distance(in7, end7);
+		temp = new std::string[max];
+
 		if (file_seven.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_seven >> temp;
-				seven[i] = temp.c_str();
+			file_seven.clear();
+			file_seven.seekg(0, file_seven.beg);
+			for (i = 0; i < max; ++i) {
+				file_seven >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				seven[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_seven.close();
 		}
 
+		path.LoadString(IDS_EIGHT);
+		std::ifstream file_eight(path);
+		std::istream_iterator<std::string> in8{ file_eight }, end8;
+		max = std::distance(in8, end8);
+		temp = new std::string[max];
+
 		if (file_eight.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_eight >> temp;
-				eight[i] = temp.c_str();
+			file_eight.clear();
+			file_eight.seekg(0, file_eight.beg);
+			for (i = 0; i < max; ++i) {
+				file_eight >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				eight[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_eight.close();
 		}
 
+		path.LoadString(IDS_NINE);
+		std::ifstream file_nine(path);
+		std::istream_iterator<std::string> in9{ file_nine }, end9;
+		max = std::distance(in9, end9);
+		temp = new std::string[max];
+
 		if (file_nine.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_nine >> temp;
-				nine[i] = temp.c_str();
+			file_nine.clear();
+			file_nine.seekg(0, file_nine.beg);
+			for (i = 0; i < max; ++i) {
+				file_nine >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				nine[i] = temp[rand() % max].c_str();
+			}
+			delete[]temp;
 			file_nine.close();
 		}
 
+
+		path.LoadString(IDS_TEN);
+		std::ifstream file_ten(path);
+		std::istream_iterator<std::string> in1{ file_ten }, end1;
+		max = std::distance(in1, end1);
+		temp = new std::string[max];
+
 		if (file_ten.is_open())
 		{
-			for (int i = 0; i < 400; ++i) {
-				file_ten >> temp;
-				ten[i] = temp.c_str();
+			file_ten.clear();
+			file_ten.seekg(0, file_ten.beg);
+			for (i = 0; i < max; ++i) {
+				file_ten >> temp[i];
+
 			}
+
+
+			for (i = 0; i < 200; ++i) {
+				ten[i] = temp[rand() % max].c_str();
+			}
+
 			file_ten.close();
 		}
-	}
 
+		delete[]temp;
+	}
 
 };

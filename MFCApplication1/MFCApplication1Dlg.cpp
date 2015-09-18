@@ -13,6 +13,8 @@
 #include <chrono>
 #include <future>
 #include <ctime>
+#include <Windows.h>
+#include <mmsystem.h>
 
 
 #ifdef _DEBUG
@@ -50,6 +52,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication1Dlg, CDialogEx)
 	ON_WM_CLOSE()
 
 	ON_WM_TIMER()
+
 END_MESSAGE_MAP()
 
 
@@ -62,7 +65,7 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	game = false;
 
 	CFont *font = new CFont();
-	font->CreatePointFont(150, _T("Impact"));
+	font->CreatePointFont(250, _T("Impact"));
 	CWnd *text = GetDlgItem(IDC_GLAVNITEXT);
 	text->SetFont(font, TRUE);
 
@@ -162,10 +165,12 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 
 	switch (pMsg->message)
 	{
+		
+
 		case WM_TIMER:
 			if (game == true) {
 				duration -= 0.1;
-				if (duration == 0)
+				if (duration < 0)
 					game_over();
 				t_time.Format(_T("%.1f"), duration);
 				temp_time->SetWindowText(LPCTSTR(t_time));
@@ -180,15 +185,22 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 			else if (pMsg->wParam == VK_ESCAPE) {
 				ExitProcess(0);
 				EndDialog(0);
+
+			}
+			else if (GetAsyncKeyState('H')  && game == false)
+			{
+				MessageBox(_T("Type words that appear on the screen! \n If you miss one letter or the time expires its GAME OVER! \n After every 100 points a letter is added!"),_T("HELP"));
 			}
 			else if (GetAsyncKeyState(current_word[0]) && game == true) {
 
 				if (current_word.Mid(1).IsEmpty()) {
+
 					set_score();
 					new_word();
 				}
 
 				else {
+					PlaySound(TEXT("typewriter.wav"), 0, SND_ASYNC);
 					current_word = current_word.Mid(1);
 					change_text();
 				}
@@ -210,6 +222,7 @@ void CMFCApplication1Dlg::OnClose()
 }
 
 void CMFCApplication1Dlg::new_game() {
+
 	game = false;
 	set_score();
 	game = true;
@@ -224,7 +237,7 @@ void CMFCApplication1Dlg::new_word() {
 
 	int i = 0;
 
-	i = rand() % 399  + 1;
+	i = rand() % 200;
 
 	if (score <100) {
 		current_word = words.four[i];
@@ -270,6 +283,10 @@ void CMFCApplication1Dlg::set_score() {
 	}
 	else {
 		score += 10;
+		if (score%100 == 0)
+			PlaySound(TEXT("100_points.wav"), 0, SND_ASYNC);
+		else
+			PlaySound(TEXT("type_ding.wav"), 0, SND_ASYNC);
 	}
 
 	CWnd *score_text = GetDlgItem(IDC_BODOVI);
@@ -282,6 +299,7 @@ void CMFCApplication1Dlg::game_over() {
 	CWnd *text = GetDlgItem(IDC_GLAVNITEXT);
 	text->SetWindowText(_T("GAME OVER!!! \n Press ENTER to Play Again"));
 	game = false;
+	PlaySound(TEXT("life_lost.wav"), 0, SND_ASYNC);
 }
 
 void CMFCApplication1Dlg::timer() {
@@ -300,4 +318,17 @@ void CMFCApplication1Dlg::OnTimer(UINT_PTR nIDEvent)
 	// TODO: Add your message handler code here and/or call default
 
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CMFCApplication1Dlg::OnBnClickedButton1()
+{
+	// TODO: Add your control notification handler code here
+}
+
+
+void CMFCApplication1Dlg::OnBnClickedHbutton()
+{
+	// TODO: Add your control notification handler code here
+	MessageBox(_T("Nesto"), _T("Nesto"));
 }

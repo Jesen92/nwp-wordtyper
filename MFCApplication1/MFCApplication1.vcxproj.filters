@@ -40,6 +40,13 @@
     <Text Include="G:\Rijeci\sest.txt">
       <Filter>Resource Files\Rijeci</Filter>
     </Text>
+    <Text Include="..\Debug\cetiri.txt" />
+    <Text Include="..\Debug\deset.txt" />
+    <Text Include="..\Debug\devet.txt" />
+    <Text Include="..\Debug\osam.txt" />
+    <Text Include="..\Debug\pet.txt" />
+    <Text Include="..\Debug\sedam.txt" />
+    <Text Include="..\Debug\sest.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFCApplication1.h">
@@ -86,5 +93,19 @@
     <Image Include="res\MFCApplication1.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Debug\100_points.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\life_lost.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\type_ding.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\typewriter.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

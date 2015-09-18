@@ -212,9 +212,7 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 
 				else {
 
-					res.LoadString(IDS_S_WRITE);
-
-					PlaySound(res, 0, SND_ASYNC);
+					PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 					current_word = current_word.Mid(1);
 					change_text();
 				}
@@ -304,12 +302,11 @@ void CMFCApplication1Dlg::set_score() {
 	else {
 		score += 10;
 		if (score % 100 == 0) {
-			res.LoadString(IDS_S_POINTS);
-			PlaySound(res, 0, SND_ASYNC);
+
+			PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 		}
 		else {
-			res.LoadString(IDS_S_DING);
-			PlaySound(res, 0, SND_ASYNC);
+			PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 		}
 	}
 
@@ -320,8 +317,8 @@ void CMFCApplication1Dlg::set_score() {
 }
 
 void CMFCApplication1Dlg::game_over() {
-	res.LoadString(IDS_S_LOST);
-	PlaySound(res, 0, SND_ASYNC);
+
+	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 
 	CWnd *_help = GetDlgItem(IDC_INST);
 	res.LoadString(IDS_INST);

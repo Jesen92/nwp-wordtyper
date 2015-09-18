@@ -15,6 +15,7 @@
 #include <ctime>
 #include <Windows.h>
 #include <mmsystem.h>
+#include "resource.h"
 
 
 #ifdef _DEBUG
@@ -65,10 +66,23 @@ BOOL CMFCApplication1Dlg::OnInitDialog()
 	game = false;
 
 	CFont *font = new CFont();
-	font->CreatePointFont(250, _T("Impact"));
+	CFont *l_font = new CFont();
+	font->CreatePointFont(280, _T("Traditional Arabic"));
+
 	CWnd *text = GetDlgItem(IDC_GLAVNITEXT);
 	text->SetFont(font, TRUE);
 
+
+	l_font->CreatePointFont(150, _T("Traditional Arabic"));
+
+	CWnd *points = GetDlgItem(IDC_BODOVI);
+	points->SetFont(l_font, TRUE);
+
+	CWnd *_time = GetDlgItem(IDC_TIMER);
+	_time->SetFont(l_font, TRUE);
+
+	CWnd *_help = GetDlgItem(IDC_INST);
+	_help->SetFont(l_font, TRUE);
 
 
 
@@ -144,7 +158,7 @@ void CMFCApplication1Dlg::OnStnClickedTimer()
 void CMFCApplication1Dlg::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: Add your message handler code here and/or call default
-	MessageBox(_T("Pritisnuta je tipka"), _T("Nesto"));
+	//MessageBox(_T("Pritisnuta je tipka"), _T("Nesto"));
 	CDialogEx::OnKeyUp(nChar, nRepCnt, nFlags);
 
 
@@ -180,16 +194,13 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 		case WM_KEYUP:
 			if (pMsg->wParam == VK_RETURN) {
 				new_game();
-
+				CWnd *_help = GetDlgItem(IDC_INST);
+				_help->SetWindowText(_T(""));
 			}
 			else if (pMsg->wParam == VK_ESCAPE) {
 				ExitProcess(0);
 				EndDialog(0);
 
-			}
-			else if (GetAsyncKeyState('H')  && game == false)
-			{
-				MessageBox(_T("Type words that appear on the screen! \n If you miss one letter or the time expires its GAME OVER! \n After every 100 points a letter is added!"),_T("HELP"));
 			}
 			else if (GetAsyncKeyState(current_word[0]) && game == true) {
 
@@ -200,10 +211,19 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 				}
 
 				else {
-					PlaySound(TEXT("typewriter.wav"), 0, SND_ASYNC);
+
+					res.LoadString(IDS_S_WRITE);
+
+					PlaySound(res, 0, SND_ASYNC);
 					current_word = current_word.Mid(1);
 					change_text();
 				}
+			}
+			else if (GetAsyncKeyState('H') && game == false)
+			{
+				res.LoadString(IDS_M_HELP);
+				res2.LoadString(IDS_M_HELP_T);
+				MessageBox(res, res2);
 			}
 			else if (game == true)
 				game_over();
@@ -283,10 +303,14 @@ void CMFCApplication1Dlg::set_score() {
 	}
 	else {
 		score += 10;
-		if (score%100 == 0)
-			PlaySound(TEXT("100_points.wav"), 0, SND_ASYNC);
-		else
-			PlaySound(TEXT("type_ding.wav"), 0, SND_ASYNC);
+		if (score % 100 == 0) {
+			res.LoadString(IDS_S_POINTS);
+			PlaySound(res, 0, SND_ASYNC);
+		}
+		else {
+			res.LoadString(IDS_S_DING);
+			PlaySound(res, 0, SND_ASYNC);
+		}
 	}
 
 	CWnd *score_text = GetDlgItem(IDC_BODOVI);
@@ -296,17 +320,28 @@ void CMFCApplication1Dlg::set_score() {
 }
 
 void CMFCApplication1Dlg::game_over() {
-	CWnd *text = GetDlgItem(IDC_GLAVNITEXT);
-	text->SetWindowText(_T("GAME OVER!!! \n Press ENTER to Play Again"));
+	res.LoadString(IDS_S_LOST);
+	PlaySound(res, 0, SND_ASYNC);
+
+	CWnd *_help = GetDlgItem(IDC_INST);
+	res.LoadString(IDS_INST);
+	_help->SetWindowText(res);
+
+	CWnd *_time = GetDlgItem(IDC_TIMER);
+	res.LoadString(IDS_TIMER);
+	_time->SetWindowText(res);
+
 	game = false;
-	PlaySound(TEXT("life_lost.wav"), 0, SND_ASYNC);
+	res.LoadString(IDS_GAMEOVER);
+	res2.LoadString(IDS_GAMEOVER_T);
+	MessageBox(res,res2);
 }
 
 void CMFCApplication1Dlg::timer() {
 	SetTimer(0, 100, NULL);
 	CWnd* temp_time = GetDlgItem(IDC_TIMER);
 	CString t_time;
-	duration = 4;
+	duration = 3;
 	t_time.Format(_T("%.1f"), duration);
 	temp_time->SetWindowText(LPCTSTR(t_time));
 
@@ -330,5 +365,5 @@ void CMFCApplication1Dlg::OnBnClickedButton1()
 void CMFCApplication1Dlg::OnBnClickedHbutton()
 {
 	// TODO: Add your control notification handler code here
-	MessageBox(_T("Nesto"), _T("Nesto"));
+	//MessageBox(_T("Nesto"), _T("Nesto"));
 }

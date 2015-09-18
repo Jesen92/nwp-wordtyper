@@ -44,7 +44,8 @@ public:
 	int score;
 	double duration;
 	CString current_word;
-
+	CString res;
+	CString res2;
 //	char IDC_SLUSAC;
 
 

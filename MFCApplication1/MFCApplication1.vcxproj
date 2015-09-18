@@ -225,6 +225,7 @@
     <ResourceCompile Include="MFCApplication1.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\mcetiri1.bin" />
     <None Include="res\MFCApplication1.rc2" />
   </ItemGroup>
   <ItemGroup>

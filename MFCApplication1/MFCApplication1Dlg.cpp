@@ -318,7 +318,7 @@ void CMFCApplication1Dlg::set_score() {
 
 void CMFCApplication1Dlg::game_over() {
 
-	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
+	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL),  SND_RESOURCE | SND_ASYNC);
 
 	CWnd *_help = GetDlgItem(IDC_INST);
 	res.LoadString(IDS_INST);

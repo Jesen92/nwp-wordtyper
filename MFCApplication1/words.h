@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <tchar.h>
+#include <cstdio>
 #include <iterator>
 
 

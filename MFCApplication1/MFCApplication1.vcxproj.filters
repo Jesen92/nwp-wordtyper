@@ -40,13 +40,6 @@
     <Text Include="G:\Rijeci\sest.txt">
       <Filter>Resource Files\Rijeci</Filter>
     </Text>
-    <Text Include="..\Debug\cetiri.txt" />
-    <Text Include="..\Debug\deset.txt" />
-    <Text Include="..\Debug\devet.txt" />
-    <Text Include="..\Debug\osam.txt" />
-    <Text Include="..\Debug\pet.txt" />
-    <Text Include="..\Debug\sedam.txt" />
-    <Text Include="..\Debug\sest.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFCApplication1.h">

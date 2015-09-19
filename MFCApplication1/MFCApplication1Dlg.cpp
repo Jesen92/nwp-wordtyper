@@ -181,7 +181,7 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 	{
 		
 
-		case WM_TIMER:
+		case WM_TIMER: //
 			if (game == true) {
 				duration -= 0.1;
 				if (duration < 0)
@@ -191,39 +191,39 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 				return false;
 			}
 
-		case WM_KEYUP:
-			if (pMsg->wParam == VK_RETURN) {
+		case WM_KEYUP: //prepoznavanje stisnute tipke
+			if (pMsg->wParam == VK_RETURN) { // poèetak ili reset igre
 				new_game();
 				CWnd *_help = GetDlgItem(IDC_INST);
 				_help->SetWindowText(_T(""));
 			}
-			else if (pMsg->wParam == VK_ESCAPE) {
+			else if (pMsg->wParam == VK_ESCAPE) { // izlazak iz igre
 				ExitProcess(0);
 				EndDialog(0);
 
 			}
-			else if (GetAsyncKeyState(current_word[0]) && game == true) {
+			else if (GetAsyncKeyState(current_word[0]) && game == true) { //provjera da li je pritisnuta tipka jednaka traženom slovu
 
-				if (current_word.Mid(1).IsEmpty()) {
+				if (current_word.Mid(1).IsEmpty()) { //ako nema više slova poveæava se "score"  i postavlja se nova rijeè
 
 					set_score();
 					new_word();
 				}
 
-				else {
+				else { //za svako pogoðeno slovo, to slovo se mièe iz prikaza rijeèi i svira zvuk za pogoðeno slovo
 
-					PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
-					current_word = current_word.Mid(1);
-					change_text();
+					PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk za dobro upisano slovo
+					current_word = current_word.Mid(1); //mièe se prvi znak(slovo) iz rijeèi
+					change_text(); //postavlja se tekst bez prvog znaka
 				}
 			}
-			else if (GetAsyncKeyState('H') && game == false)
+			else if (GetAsyncKeyState('H') && game == false) //kada igra ne traje ako je "H" pritisnut prikazuju se instrukcije za igranje igre
 			{
 				res.LoadString(IDS_M_HELP);
 				res2.LoadString(IDS_M_HELP_T);
 				MessageBox(res, res2);
 			}
-			else if (game == true)
+			else if (game == true) //ako igra traje i nije pogoðeno slovo, poziva se "game over"
 				game_over();
 
 			return true;
@@ -239,23 +239,25 @@ void CMFCApplication1Dlg::OnClose()
 	CDialogEx::OnClose();
 }
 
-void CMFCApplication1Dlg::new_game() {
+void CMFCApplication1Dlg::new_game() { //poèetak igre
 
-	game = false;
-	set_score();
-	game = true;
-	new_word();
+	game = false; //postavlja se indicator "game" na "false" da bi se "score" postavio na nulu
+	set_score(); //"score" se postavlja na 0
+	game = true; // indicator se postavlja na "true" da kada se postavi rijeè za upisivanje, program provjerava da li je pritisnuta tipka jednaka traženom slovu
+	new_word(); // postavlja se nova rijeè
+
 	//std::async(std::launch::async, &CMFCApplication1Dlg::timer, this);
+
 	srand(time(NULL));
-	timer();
+	timer(); //postavlja se timer
 }
 
-void CMFCApplication1Dlg::new_word() {
+void CMFCApplication1Dlg::new_word() { //provjera na koliko je bodova igraè i po tome se odreðuje velièina rijeèi koje æe upisivati
 
 
 	int i = 0;
 
-	i = rand() % 200;
+	i = rand() % 200; //na random se odabire rijeè
 
 	if (score <100) {
 		current_word = words.four[i];
@@ -285,8 +287,8 @@ void CMFCApplication1Dlg::new_word() {
 		current_word = words.ten[i];
 	}
 
-	change_text();
-	timer();
+	change_text(); //izmjena text-a za upis
+	timer(); //reset timer-a
 
 }
 
@@ -295,7 +297,7 @@ void CMFCApplication1Dlg::change_text() {
 	text->SetWindowText(LPCTSTR(current_word));
 }
 
-void CMFCApplication1Dlg::set_score() {
+void CMFCApplication1Dlg::set_score() { //provjerava da li igra traje, ako traje nakon svake rijeèi "score" poveæava za 10 i svira zvuk koji oznaèava dobro upisanu rijeè ili da se mijenja velièina rijeèi(na 100 bodova)
 	if(game == false){
 		score = 0;
 	}
@@ -303,10 +305,10 @@ void CMFCApplication1Dlg::set_score() {
 		score += 10;
 		if (score % 100 == 0) {
 
-			PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
+			PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava da se mijenja velièina rijeèi(poveæava se za 1 slovo)
 		}
 		else {
-			PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
+			PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava da je igraè dobro upisao rijeè
 		}
 	}
 
@@ -316,9 +318,9 @@ void CMFCApplication1Dlg::set_score() {
 	score_text->SetWindowText(LPCTSTR(score_temp));
 }
 
-void CMFCApplication1Dlg::game_over() {
+void CMFCApplication1Dlg::game_over() { //postavlja indicator "game" na false, da program više ne provjerava da li se slovo poklapa sa slovom prikazane rijeèi, takoðer static text-ove izmjenjuje
 
-	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL),  SND_RESOURCE | SND_ASYNC);
+	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL),  SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava game over
 
 	CWnd *_help = GetDlgItem(IDC_INST);
 	res.LoadString(IDS_INST);
@@ -334,7 +336,7 @@ void CMFCApplication1Dlg::game_over() {
 	MessageBox(res,res2);
 }
 
-void CMFCApplication1Dlg::timer() {
+void CMFCApplication1Dlg::timer() { //postavlja timer na poèetku igre
 	SetTimer(0, 100, NULL);
 	CWnd* temp_time = GetDlgItem(IDC_TIMER);
 	CString t_time;

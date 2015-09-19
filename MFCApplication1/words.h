@@ -15,7 +15,8 @@ class words {
 
 public:
 
-	CString four[200];
+	//array-evi za upis rijeèi
+	CString four[200]; //array za upis rijeèi velièine 4 slova
 	CString five[200];
 	CString six[200];
 	CString seven[200];
@@ -25,30 +26,30 @@ public:
 
 	words() {
 		CString path;
-
-		std::string *temp;
+		srand(time(NULL));
+		std::string *temp; //varijabla se dinamièki alocira
 		int max;
 		int i = 0;
 
 
-		path.LoadString(IDS_FOUR);
+		path.LoadString(IDS_FOUR); // uèitava se .txt file
 		std::ifstream file_four(path);
 		std::istream_iterator<std::string> in4{ file_four }, end4;
-		max = std::distance(in4, end4);
-		temp = new std::string[max];
+		max = std::distance(in4, end4);	//broj rijeèi u .txt file-u
+		temp = new std::string[max]; //dinamicka alokacija
 
 		if (file_four.is_open())
 		{
 			file_four.clear();
 			file_four.seekg(0, file_four.beg);
 			for (i = 0; i < max; ++i) {
-				file_four >> temp[i];
+				file_four >> temp[i]; //u temp varijablu se stavljaju sve rijeèi iz file-a
 
 			}
 
 
 			for (i = 0; i < 200; ++i) {
-				four[i] = temp[rand() % max].c_str();
+				four[i] = temp[rand() % max].c_str(); //temp stavlja random 200 rijeèi u array
 			}
 			delete[]temp;
 			file_four.close();

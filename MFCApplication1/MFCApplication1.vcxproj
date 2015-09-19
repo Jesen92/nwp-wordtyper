@@ -147,6 +147,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -187,13 +188,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="..\Debug\cetiri.txt" />
-    <Text Include="..\Debug\deset.txt" />
-    <Text Include="..\Debug\devet.txt" />
-    <Text Include="..\Debug\osam.txt" />
-    <Text Include="..\Debug\pet.txt" />
-    <Text Include="..\Debug\sedam.txt" />
-    <Text Include="..\Debug\sest.txt" />
     <Text Include="G:\Rijeci\cetiri.txt" />
     <Text Include="G:\Rijeci\deset.txt" />
     <Text Include="G:\Rijeci\devet.txt" />

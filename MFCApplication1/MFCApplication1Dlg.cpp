@@ -181,7 +181,7 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 	{
 		
 
-		case WM_TIMER: //
+		case WM_TIMER: //ako traje igra, svakih 0.1 sekundi provjerava da li je "duration" manji od 0, ako je poziva se "game over", ako nije da se "duration" smanji za 0.1
 			if (game == true) {
 				duration -= 0.1;
 				if (duration < 0)

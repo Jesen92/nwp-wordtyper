@@ -225,7 +225,7 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 				_help->SetWindowText(_T(""));
 			}
 			else if (pMsg->wParam == VK_ESCAPE) { // izlazak iz igre
-				exit(0);
+				EndDialog(IDCANCEL);
 
 			}
 			else if (GetAsyncKeyState(current_word[0]) && game == true) { //provjera da li je pritisnuta tipka jednaka traženom slovu
@@ -258,7 +258,6 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 			return true;
 
 	}
-		DispatchMessage(pMsg);
 		return false;
 }
 

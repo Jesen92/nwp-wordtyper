@@ -4,11 +4,12 @@
 
 #pragma once
 #include "afxwin.h"
-#include "words.h"
+#include <algorithm>
 #include <ctime>
 #include <cstdio>
 #include <list>
 #include <cstring>
+#include <vector>
 
 // CMFCApplication1Dlg dialog
 class CMFCApplication1Dlg : public CDialogEx
@@ -39,14 +40,14 @@ public:
 	afx_msg void OnStnClickedGlavnitext();
 	afx_msg void OnStnClickedBodovi();
 	afx_msg void OnStnClickedTimer();
-	std::vector<std::string>::iterator it;
-	words words;
+
+	std::vector<std::string> list_words;
+
 	bool game;
 	int score;
 	double duration;
+
 	CString current_word;
-	CString res;
-	CString res2;
 	CString sound_path;
 //	char IDC_SLUSAC;
 
@@ -64,5 +65,5 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedHbutton();
-	void letter_count_check();
+
 };

@@ -9,7 +9,6 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
-#include "words.h"
 #include <chrono>
 #include <future>
 #include <ctime>
@@ -18,6 +17,8 @@
 #include "resource.h"
 #include <algorithm>
 #include <random>
+#include <iterator>
+
 
 
 
@@ -25,19 +26,33 @@
 #define new DEBUG_NEW
 #endif
 
-int letter_count;
+
 // CMFCApplication1Dlg dialog
 
-bool isLength(std::string a) { 
-	return a.length() == letter_count;
-}
+class isLength{
+public:
 
+	isLength(int s) : score(s){ }
+
+	bool operator() (std::string a) {
+		return a.length() == letter_count_check();
+	}
+
+private:
+	int score;
+
+	int letter_count_check() {
+
+		return min(10, (score + 400) / 100);
+
+	}
+};
 
 CMFCApplication1Dlg::CMFCApplication1Dlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_MFCAPPLICATION1_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	//  IDC_SLUSAC = 0;
+
 
 
 }
@@ -67,6 +82,13 @@ END_MESSAGE_MAP()
 BOOL CMFCApplication1Dlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+
+	CString res;
+	res.LoadString(IDS_WORDS);
+
+	std::ifstream file(res);
+
+	copy(std::istream_iterator<std::string>(file), std::istream_iterator<std::string>(), back_inserter(list_words));
 
 	game = false;
 
@@ -203,8 +225,7 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 				_help->SetWindowText(_T(""));
 			}
 			else if (pMsg->wParam == VK_ESCAPE) { // izlazak iz igre
-				ExitProcess(0);
-				EndDialog(0);
+				exit(0);
 
 			}
 			else if (GetAsyncKeyState(current_word[0]) && game == true) { //provjera da li je pritisnuta tipka jednaka traženom slovu
@@ -225,6 +246,8 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 			}
 			else if (GetAsyncKeyState('H') && game == false) //kada igra ne traje ako je "H" pritisnut prikazuju se instrukcije za igranje igre
 			{
+				CString res;
+				CString res2;
 				res.LoadString(IDS_M_HELP);
 				res2.LoadString(IDS_M_HELP_T);
 				MessageBox(res, res2);
@@ -233,8 +256,10 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 				game_over();
 
 			return true;
-	}
 
+	}
+		DispatchMessage(pMsg);
+		return false;
 }
 
 
@@ -261,17 +286,12 @@ void CMFCApplication1Dlg::new_game() { //poèetak igre
 }
 
 void CMFCApplication1Dlg::new_word() { //provjera na koliko je bodova igraè i po tome se odreðuje velièina rijeèi koje æe upisivati
+	std::vector<std::string>::iterator it;
 
 
-	/*int i = 0;
-
-	i = rand() % 200;*/ //na random se odabire rijeè
-
-	letter_count_check();
-
-	random_shuffle(words.list_words.begin(), words.list_words.end());
-	it = find_if(words.list_words.begin(), words.list_words.end(), isLength);
-	std::string t = *it;
+	random_shuffle(list_words.begin(), list_words.end()); 
+	it = find_if(list_words.begin(), list_words.end(), isLength(score));
+	std::string t = *it; 
 	current_word = t.c_str();
 
 	change_text(); //izmjena text-a za upis
@@ -307,6 +327,9 @@ void CMFCApplication1Dlg::set_score() { //provjerava da li igra traje, ako traje
 }
 
 void CMFCApplication1Dlg::game_over() { //postavlja indicator "game" na false, da program više ne provjerava da li se slovo poklapa sa slovom prikazane rijeèi, takoðer static text-ove izmjenjuje
+	CString res;
+	CString res2;
+
 
 	sound_path.LoadString(IDS_S_LOST);
 	PlaySound(sound_path, GetModuleHandle(NULL), SND_ASYNC); //zvuk koji oznaèava game over
@@ -356,34 +379,3 @@ void CMFCApplication1Dlg::OnBnClickedHbutton()
 	//MessageBox(_T("Nesto"), _T("Nesto"));
 }
 
-void CMFCApplication1Dlg::letter_count_check() {
-
-	if (score < 100) {
-		letter_count = 4;
-	}
-
-	else if (score >= 100 && score < 200) {
-		letter_count = 5;
-	}
-
-	else if (score >= 200 && score < 300) {
-		letter_count = 6;
-	}
-
-	else if (score >= 300 && score < 400) {
-		letter_count = 7;
-	}
-
-	else if (score >= 400 && score < 500) {
-		letter_count = 8;
-	}
-
-	else if (score >= 500 && score < 600) {
-		letter_count = 9;
-	}
-
-	else {
-		letter_count = 10;
-	}
-
-}

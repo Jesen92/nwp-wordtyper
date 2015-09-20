@@ -25,35 +25,11 @@
 #define new DEBUG_NEW
 #endif
 
-
+int letter_count;
 // CMFCApplication1Dlg dialog
 
-bool isLengthFour(std::string a) { 
-	return a.length() == 4;
-}
-
-bool isLengthFive(std::string a) {
-	return a.length() == 5;
-}
-
-bool isLengthSix(std::string a) {
-	return a.length() == 6;
-}
-
-bool isLengthSeven(std::string a) {
-	return a.length() == 7;
-}
-
-bool isLengthEight(std::string a) {
-	return a.length() == 8;
-}
-
-bool isLengthNine(std::string a) {
-	return a.length() == 9;
-}
-
-bool isLengthTen(std::string a) {
-	return a.length() == 10;
+bool isLength(std::string a) { 
+	return a.length() == letter_count;
 }
 
 
@@ -291,55 +267,12 @@ void CMFCApplication1Dlg::new_word() { //provjera na koliko je bodova igraè i po
 
 	i = rand() % 200;*/ //na random se odabire rijeè
 
-	if (score <100) {
-		//current_word = words.four[i];
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthFour);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
+	letter_count_check();
 
-	else if (score >= 100 && score <200) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthFive);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
-
-	else if (score >= 200 && score <300) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthSix);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
-
-	else if (score >= 300 && score <400) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthSeven);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
-
-	else if (score >= 400 && score <500) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthEight);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
-
-	else if (score >= 500 && score <600) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthNine);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
-
-	else if (score >= 600) {
-		random_shuffle(words.list_words.begin(), words.list_words.end());
-		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthTen);
-		std::string t = *it;
-		current_word = t.c_str();
-	}
+	random_shuffle(words.list_words.begin(), words.list_words.end());
+	it = find_if(words.list_words.begin(), words.list_words.end(), isLength);
+	std::string t = *it;
+	current_word = t.c_str();
 
 	change_text(); //izmjena text-a za upis
 	timer(); //reset timer-a
@@ -423,3 +356,34 @@ void CMFCApplication1Dlg::OnBnClickedHbutton()
 	//MessageBox(_T("Nesto"), _T("Nesto"));
 }
 
+void CMFCApplication1Dlg::letter_count_check() {
+
+	if (score < 100) {
+		letter_count = 4;
+	}
+
+	else if (score >= 100 && score < 200) {
+		letter_count = 5;
+	}
+
+	else if (score >= 200 && score < 300) {
+		letter_count = 6;
+	}
+
+	else if (score >= 300 && score < 400) {
+		letter_count = 7;
+	}
+
+	else if (score >= 400 && score < 500) {
+		letter_count = 8;
+	}
+
+	else if (score >= 500 && score < 600) {
+		letter_count = 9;
+	}
+
+	else {
+		letter_count = 10;
+	}
+
+}

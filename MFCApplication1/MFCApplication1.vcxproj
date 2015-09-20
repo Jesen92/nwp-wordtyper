@@ -188,13 +188,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="G:\Rijeci\cetiri.txt" />
-    <Text Include="G:\Rijeci\deset.txt" />
-    <Text Include="G:\Rijeci\devet.txt" />
-    <Text Include="G:\Rijeci\osam.txt" />
-    <Text Include="G:\Rijeci\pet.txt" />
-    <Text Include="G:\Rijeci\sedam.txt" />
-    <Text Include="G:\Rijeci\sest.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -224,12 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MFCApplication1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="..\Debug\100_points.wav" />
-    <Media Include="..\Debug\life_lost.wav" />
-    <Media Include="..\Debug\typewriter.wav" />
-    <Media Include="..\Debug\type_ding.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

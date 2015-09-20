@@ -13,33 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Rijeci">
-      <UniqueIdentifier>{cc65dd79-501a-4235-b2b4-37c27e0802f0}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="G:\Rijeci\cetiri.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\deset.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\devet.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\osam.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\pet.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\sedam.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
-    <Text Include="G:\Rijeci\sest.txt">
-      <Filter>Resource Files\Rijeci</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFCApplication1.h">
@@ -89,19 +65,5 @@
     <Image Include="res\MFCApplication1.ico">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="..\Debug\100_points.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
-    <Media Include="..\Debug\life_lost.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
-    <Media Include="..\Debug\type_ding.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
-    <Media Include="..\Debug\typewriter.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
   </ItemGroup>
 </Project>

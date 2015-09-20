@@ -16,6 +16,9 @@
 #include <Windows.h>
 #include <mmsystem.h>
 #include "resource.h"
+#include <algorithm>
+#include <random>
+
 
 
 #ifdef _DEBUG
@@ -25,7 +28,33 @@
 
 // CMFCApplication1Dlg dialog
 
+bool isLengthFour(std::string a) { 
+	return a.length() == 4;
+}
 
+bool isLengthFive(std::string a) {
+	return a.length() == 5;
+}
+
+bool isLengthSix(std::string a) {
+	return a.length() == 6;
+}
+
+bool isLengthSeven(std::string a) {
+	return a.length() == 7;
+}
+
+bool isLengthEight(std::string a) {
+	return a.length() == 8;
+}
+
+bool isLengthNine(std::string a) {
+	return a.length() == 9;
+}
+
+bool isLengthTen(std::string a) {
+	return a.length() == 10;
+}
 
 
 CMFCApplication1Dlg::CMFCApplication1Dlg(CWnd* pParent /*=NULL*/)
@@ -212,7 +241,8 @@ BOOL CMFCApplication1Dlg::PreTranslateMessage(MSG* pMsg) {
 
 				else { //za svako pogoðeno slovo, to slovo se mièe iz prikaza rijeèi i svira zvuk za pogoðeno slovo
 
-					PlaySound(MAKEINTRESOURCE(IDR_WAVE4), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk za dobro upisano slovo
+					sound_path.LoadString(IDS_S_WRITE);
+					PlaySound(sound_path, GetModuleHandle(NULL), SND_ASYNC); //zvuk za dobro upisano slovo
 					current_word = current_word.Mid(1); //mièe se prvi znak(slovo) iz rijeèi
 					change_text(); //postavlja se tekst bez prvog znaka
 				}
@@ -241,6 +271,9 @@ void CMFCApplication1Dlg::OnClose()
 
 void CMFCApplication1Dlg::new_game() { //poèetak igre
 
+
+	srand(time(NULL));
+
 	game = false; //postavlja se indicator "game" na "false" da bi se "score" postavio na nulu
 	set_score(); //"score" se postavlja na 0
 	game = true; // indicator se postavlja na "true" da kada se postavi rijeè za upisivanje, program provjerava da li je pritisnuta tipka jednaka traženom slovu
@@ -248,43 +281,64 @@ void CMFCApplication1Dlg::new_game() { //poèetak igre
 
 	//std::async(std::launch::async, &CMFCApplication1Dlg::timer, this);
 
-	srand(time(NULL));
 	timer(); //postavlja se timer
 }
 
 void CMFCApplication1Dlg::new_word() { //provjera na koliko je bodova igraè i po tome se odreðuje velièina rijeèi koje æe upisivati
 
 
-	int i = 0;
+	/*int i = 0;
 
-	i = rand() % 200; //na random se odabire rijeè
+	i = rand() % 200;*/ //na random se odabire rijeè
 
 	if (score <100) {
-		current_word = words.four[i];
+		//current_word = words.four[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthFour);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 100 && score <200) {
-		current_word = words.five[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthFive);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 200 && score <300) {
-		current_word = words.six[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthSix);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 300 && score <400) {
-		current_word = words.seven[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthSeven);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 400 && score <500) {
-		current_word = words.eight[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthEight);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 500 && score <600) {
-		current_word = words.nine[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthNine);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	else if (score >= 600) {
-		current_word = words.ten[i];
+		random_shuffle(words.list_words.begin(), words.list_words.end());
+		it = find_if(words.list_words.begin(), words.list_words.end(), isLengthTen);
+		std::string t = *it;
+		current_word = t.c_str();
 	}
 
 	change_text(); //izmjena text-a za upis
@@ -304,11 +358,12 @@ void CMFCApplication1Dlg::set_score() { //provjerava da li igra traje, ako traje
 	else {
 		score += 10;
 		if (score % 100 == 0) {
-
-			PlaySound(MAKEINTRESOURCE(IDR_WAVE1), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava da se mijenja velièina rijeèi(poveæava se za 1 slovo)
+			sound_path.LoadString(IDS_S_POINTS);
+			PlaySound(sound_path, GetModuleHandle(NULL), SND_ASYNC); //zvuk koji oznaèava da se mijenja velièina rijeèi(poveæava se za 1 slovo)
 		}
 		else {
-			PlaySound(MAKEINTRESOURCE(IDR_WAVE3), GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava da je igraè dobro upisao rijeè
+			sound_path.LoadString(IDS_S_DING);
+			PlaySound(sound_path, GetModuleHandle(NULL), SND_ASYNC); //zvuk koji oznaèava da je igraè dobro upisao rijeè
 		}
 	}
 
@@ -320,7 +375,8 @@ void CMFCApplication1Dlg::set_score() { //provjerava da li igra traje, ako traje
 
 void CMFCApplication1Dlg::game_over() { //postavlja indicator "game" na false, da program više ne provjerava da li se slovo poklapa sa slovom prikazane rijeèi, takoðer static text-ove izmjenjuje
 
-	PlaySound(MAKEINTRESOURCE(IDR_WAVE2), GetModuleHandle(NULL),  SND_RESOURCE | SND_ASYNC); //zvuk koji oznaèava game over
+	sound_path.LoadString(IDS_S_LOST);
+	PlaySound(sound_path, GetModuleHandle(NULL), SND_ASYNC); //zvuk koji oznaèava game over
 
 	CWnd *_help = GetDlgItem(IDC_INST);
 	res.LoadString(IDS_INST);
@@ -366,3 +422,4 @@ void CMFCApplication1Dlg::OnBnClickedHbutton()
 	// TODO: Add your control notification handler code here
 	//MessageBox(_T("Nesto"), _T("Nesto"));
 }
+
